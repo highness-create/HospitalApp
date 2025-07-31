@@ -28,16 +28,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.hospitalapp.R
+import com.example.hospitalapp.data.PatientViewModel
 
 @Composable
 fun AddPatientScreen(navController: NavController){
@@ -47,6 +50,8 @@ fun AddPatientScreen(navController: NavController){
     var age by remember { mutableStateOf("") }
     var diagnosis by remember { mutableStateOf("") }
     val imageUri = rememberSaveable() { mutableStateOf<Uri?>(null) }
+    val patientViewModel : PatientViewModel = viewModel()
+    val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
             uri: Uri? ->  uri?.let { imageUri.value=it }
     }
@@ -104,7 +109,15 @@ fun AddPatientScreen(navController: NavController){
         Row (modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween){
             Button(onClick = {}) { Text(text = "Go back") }
-            Button(onClick = {}) { Text(text = "Save Patient") }
+            Button(onClick = {
+                patientViewModel.uploadPatient(imageUri.value,
+                    name,
+                    gender,
+                    nationality,
+                    age,
+                    diagnosis,
+                    context)
+            }) { Text(text = "Save Patient") }
         }
     }
 }

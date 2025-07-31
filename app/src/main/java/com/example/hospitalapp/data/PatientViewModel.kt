@@ -19,6 +19,8 @@ import java.io.InputStream
 
 
 class PatientViewModel:ViewModel() {
+    val cloudinaryUrl = "https://api.cloudinary.com/v1_1/di2iwtvly/image/upload"
+    val uploadPreset = "HOSPITALIMAGES"
     fun uploadPatient(imageUri: Uri?,name:String,gender:String,nationality:String,age:String, diagnosis:String,context: Context){
         viewModelScope.launch (Dispatchers.IO ){
             try{

@@ -11,7 +11,7 @@ import retrofit2.http.Part
 
 interface CloudinaryApi {
     @Multipart
-    @POST("v1_1/<di2iwtvly>/image/upload")
+    @POST("v1_1/di2iwtvly/image/upload")
     suspend fun uploadImage(
         @Part file: MultipartBody.Part,
         @Part("upload_preset") uploadPreset : RequestBody
